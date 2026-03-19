@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoxArena – AI Voice Debate Partner</title>
+  <meta name="description" content="VoxArena is your AI-powered voice debate partner for real-time thinking and communication practice. Debate smarter, speak better." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════ NAV ═══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="14" r="13" stroke="url(#logo-grad)" stroke-width="2"/>
+            <path d="M9 14 C9 11,11 9,14 9 C17 9,19 11,19 14 C19 17,17 19,14 19" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="14" cy="14" r="3" fill="url(#logo-grad)"/>
+            <line x1="14" y1="19" x2="14" y2="22" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="10" y1="22" x2="18" y2="22" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#06b6d4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="logo-text">Vox<span class="logo-accent">Arena</span></span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#demo" class="nav-cta" id="nav-cta-btn">Start Debate</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════ HERO ═══════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <canvas id="waveCanvas" class="wave-canvas"></canvas>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Powered by Murf AI Voice Technology</span>
+      </div>
+      <h1 class="hero-heading">
+        Debate Smarter.<br/>
+        <span class="gradient-text">Speak Better.</span>
+      </h1>
+      <p class="hero-subheading">
+        Your AI-powered voice debate partner for real-time thinking<br class="desktop-br"/>
+        and communication practice.
+      </p>
+      <div class="hero-actions">
+        <a href="#demo" class="btn-primary" id="hero-cta">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 7L13 10L8 13V7Z" fill="currentColor"/>
+          </svg>
+          Start Debate
+        </a>
+        <a href="#how-it-works" class="btn-ghost">
+          See How It Works
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">10K+</span>
+          <span class="stat-label">Debates Practiced</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">Real-time</span>
+          <span class="stat-label">AI Responses</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Topics Available</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="mic-sphere">
+        <div class="sphere-ring sphere-ring-1"></div>
+        <div class="sphere-ring sphere-ring-2"></div>
+        <div class="sphere-ring sphere-ring-3"></div>
+        <div class="sphere-core">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <path d="M26 8C22.7 8 20 10.7 20 14V26C20 29.3 22.7 32 26 32C29.3 32 32 29.3 32 26V14C32 10.7 29.3 8 26 8Z" fill="url(#mic-grad)"/>
+            <path d="M14 24C14 30.6 19 36 25.3 36.8V41H21M14 24C14 30.6 19 36 25.3 36.8V41H31M37 24C37 30.6 32 36 25.7 36.8" stroke="url(#mic-grad)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="mic-grad" x1="14" y1="8" x2="38" y2="44" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#c084fc"/>
+                <stop offset="1" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="sound-bars">
+          <span class="bar" style="--delay:0s; --h:28px"></span>
+          <span class="bar" style="--delay:0.1s; --h:44px"></span>
+          <span class="bar" style="--delay:0.2s; --h:60px"></span>
+          <span class="bar" style="--delay:0.05s; --h:52px"></span>
+          <span class="bar" style="--delay:0.15s; --h:36px"></span>
+        </div>
+        <div class="sound-bars sound-bars-right">
+          <span class="bar" style="--delay:0.12s; --h:36px"></span>
+          <span class="bar" style="--delay:0.07s; --h:52px"></span>
+          <span class="bar" style="--delay:0.18s; --h:60px"></span>
+          <span class="bar" style="--delay:0.03s; --h:44px"></span>
+          <span class="bar" style="--delay:0.09s; --h:28px"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ HOW IT WORKS ═══════════════════════════════════════════ -->
+  <section class="how-it-works section-pad" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Process</span>
+        <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+        <p class="section-subtitle">Three seamless steps to sharpen your debate skills with AI precision.</p>
+      </div>
+
+      <div class="steps-grid">
+        <!-- Step 1 -->
+        <div class="step-card" data-step="1">
+          <div class="step-number">01</div>
+          <div class="step-icon-wrap">
+            <div class="step-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M18 6C14.7 6 12 8.7 12 12V18C12 21.3 14.7 24 18 24C21.3 24 24 21.3 24 18V12C24 8.7 21.3 6 18 6Z" fill="url(#step1-g)"/>
+                <path d="M8 17C8 23.1 12.9 28 19.1 28.7V32H14M8 17C8 23.1 12.9 28 19.1 28.7V32H22M28 17C28 23.1 23.1 28 16.9 28.7" stroke="url(#step1-g)" stroke-width="2" stroke-linecap="round"/>
+                <defs>
+                  <linearGradient id="step1-g" x1="8" y1="6" x2="28" y2="32" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <div class="step-content">
+            <h3>Speak Your Argument</h3>
+            <p>Choose any debate topic and voice your stance naturally. VoxArena listens with precision voice recognition tuned for rhetoric and logic.</p>
+          </div>
+          <div class="step-connector"></div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card" data-step="2">
+          <div class="step-number">02</div>
+          <div class="step-icon-wrap">
+            <div class="step-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <rect x="4" y="6" width="28" height="24" rx="4" stroke="url(#step2-g)" stroke-width="2"/>
+                <path d="M10 12H26M10 18H20M10 24H16" stroke="url(#step2-g)" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="28" cy="26" r="6" fill="url(#step2-g)"/>
+                <path d="M25 26L27 28L31 24" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                  <linearGradient id="step2-g" x1="4" y1="6" x2="32" y2="30" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <div class="step-content">
+            <h3>AI Analyzes & Generates Counterpoints</h3>
+            <p>Our large language model dissects your argument, identifies logical gaps, and constructs a compelling, evidence-based counterargument in milliseconds.</p>
+          </div>
+          <div class="step-connector"></div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card" data-step="3">
+          <div class="step-number">03</div>
+          <div class="step-icon-wrap">
+            <div class="step-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M6 10L6 26M12 6L12 30M18 9L18 27M24 6L24 30M30 10L30 26" stroke="url(#step3-g)" stroke-width="2.5" stroke-linecap="round"/>
+                <defs>
+                  <linearGradient id="step3-g" x1="6" y1="6" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <div class="step-content">
+            <h3>Hear Intelligent Responses in Real-Time Voice</h3>
+            <p>Powered by Murf AI, VoxArena speaks back—with a clear, natural voice that sounds like a real debate partner. No scripts, no delays.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ FEATURES ═══════════════════════════════════════════ -->
+  <section class="features section-pad" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Capabilities</span>
+        <h2 class="section-title">Built for <span class="gradient-text">Communicators</span></h2>
+        <p class="section-subtitle">Every feature designed to make you a sharper, more confident speaker.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card feature-card-large">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <path d="M20 8C15.6 8 12 11.6 12 16V22C12 26.4 15.6 30 20 30C24.4 30 28 26.4 28 22V16C28 11.6 24.4 8 20 8Z" fill="url(#f1-g)"/>
+              <path d="M8 20C8 27.7 13.5 34 20.8 34.8V38H15M8 20C8 27.7 13.5 34 20.8 34.8V38H25M32 20C32 27.7 26.5 34 19.2 34.8" stroke="url(#f1-g)" stroke-width="2.5" stroke-linecap="round"/>
+              <defs><linearGradient id="f1-g" x1="8" y1="8" x2="32" y2="38" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#c084fc"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+            </svg>
+          </div>
+          <h3>Voice-First Interaction</h3>
+          <p>No typing required. Engage in a fully spoken dialogue with your AI debate partner using state-of-the-art voice recognition that captures every nuance of your argument.</p>
+          <div class="feature-tag">Core Feature</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="14" stroke="url(#f2-g)" stroke-width="2"/>
+              <path d="M12 18L16 22L24 14" stroke="url(#f2-g)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18 4V8M18 28V32M4 18H8M28 18H32" stroke="url(#f2-g)" stroke-width="2" stroke-linecap="round"/>
+              <defs><linearGradient id="f2-g" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+            </svg>
+          </div>
+          <h3>Real-Time AI Responses</h3>
+          <p>Lightning-fast counterarguments generated and spoken back within seconds. Keep your debate flowing naturally.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <path d="M18 4C10.3 4 4 10.3 4 18C4 25.7 10.3 32 18 32C25.7 32 32 25.7 32 18" stroke="url(#f3-g)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 4L28 8L24 12M28 8H20C16.7 8 14 10.7 14 14V18" stroke="url(#f3-g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs><linearGradient id="f3-g" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+            </svg>
+          </div>
+          <h3>Improves Communication Skills</h3>
+          <p>Track your progress with post-debate feedback on clarity, structure, persuasiveness, and logical consistency.</p>
+        </div>
+
+        <div class="feature-card feature-card-wide">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="10" cy="10" r="5" stroke="url(#f4-g)" stroke-width="2"/>
+              <circle cx="26" cy="10" r="5" stroke="url(#f4-g)" stroke-width="2"/>
+              <circle cx="10" cy="26" r="5" stroke="url(#f4-g)" stroke-width="2"/>
+              <circle cx="26" cy="26" r="5" stroke="url(#f4-g)" stroke-width="2"/>
+              <path d="M15 10H21M10 15V21M26 15V21M15 26H21" stroke="url(#f4-g)" stroke-width="2" stroke-linecap="round"/>
+              <defs><linearGradient id="f4-g" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+            </svg>
+          </div>
+          <h3>Debate on Any Topic</h3>
+          <p>From philosophy and politics to science and pop culture—VoxArena generates informed counterpoints on virtually any subject. Infinite practice scenarios, zero repetition.</p>
+          <div class="topic-pills">
+            <span>Climate Policy</span><span>AI Ethics</span><span>Education Reform</span>
+            <span>Space Exploration</span><span>Free Speech</span><span>+ Anything You Choose</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ DEMO ═══════════════════════════════════════════ -->
+  <section class="demo section-pad" id="demo">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Live Demo</span>
+        <h2 class="section-title">Try It <span class="gradient-text">Now</span></h2>
+        <p class="section-subtitle">Click the microphone and start speaking. VoxArena will respond instantly.</p>
+      </div>
+
+      <div class="demo-arena">
+        <div class="demo-bg-glow"></div>
+
+        <div class="debate-interface">
+          <!-- Topic selector -->
+          <div class="topic-selector">
+            <label for="topic-select">Choose a debate topic:</label>
+            <select id="topic-select">
+              <option value="ai-jobs">AI will replace most human jobs</option>
+              <option value="social-media">Social media does more harm than good</option>
+              <option value="remote-work">Remote work improves productivity</option>
+              <option value="space">Space exploration should be a global priority</option>
+              <option value="ubi">Universal Basic Income is the future</option>
+              <option value="custom">Custom topic (type below)</option>
+            </select>
+            <input type="text" id="custom-topic" placeholder="Enter your custom topic..." style="display:none;" />
+          </div>
+
+          <!-- Transcript panels -->
+          <div class="transcript-panels">
+            <!-- User side -->
+            <div class="transcript-panel user-panel">
+              <div class="panel-header">
+                <div class="panel-avatar user-avatar">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="7" r="4" fill="currentColor"/>
+                    <path d="M2 18C2 14.7 5.6 12 10 12C14.4 12 18 14.7 18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span>You</span>
+                <div class="speaking-indicator user-indicator" id="user-speaking-indicator">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="transcript-content" id="user-transcript">
+                <p class="transcript-placeholder">Your speech will appear here...</p>
+              </div>
+            </div>
+
+            <!-- VS divider -->
+            <div class="vs-divider">
+              <span>VS</span>
+            </div>
+
+            <!-- AI side -->
+            <div class="transcript-panel ai-panel">
+              <div class="panel-header">
+                <div class="panel-avatar ai-avatar">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <rect x="3" y="3" width="14" height="14" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="7" cy="8" r="1.5" fill="currentColor"/>
+                    <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
+                    <path d="M7 13C7 13 8 15 10 15C12 15 13 13 13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span>VoxArena AI</span>
+                <div class="speaking-indicator ai-indicator" id="ai-speaking-indicator" style="display:none;">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="transcript-content" id="ai-transcript">
+                <p class="transcript-placeholder">AI counterargument will appear here...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mic control -->
+          <div class="mic-control-area">
+            <div class="mic-status" id="mic-status">Click to speak your argument</div>
+            <button class="mic-btn" id="mic-btn" aria-label="Start recording">
+              <div class="mic-ripple"></div>
+              <div class="mic-ripple mic-ripple-2"></div>
+              <svg class="mic-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M16 4C12.7 4 10 6.7 10 10V16C10 19.3 12.7 22 16 22C19.3 22 22 19.3 22 16V10C22 6.7 19.3 4 16 4Z" fill="currentColor"/>
+                <path d="M6 14C6 20.6 10.9 26 17.3 26.8V30H12M6 14C6 20.6 10.9 26 17.3 26.8V30H20M26 14C26 20.6 21.1 26 14.7 26.8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <div class="mic-hint" id="mic-hint">Powered by browser speech recognition</div>
+          </div>
+        </div>
+
+        <!-- Usage note -->
+        <div class="demo-note">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="#a855f7" stroke-width="1.5"/>
+            <path d="M8 7V11M8 5V5.5" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>This demo uses your browser's Speech Recognition API. Grant microphone access when prompted. Full Murf AI integration available in the production app.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ FOOTER ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">
+            <span class="logo-icon">
+              <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="13" stroke="url(#foot-grad)" stroke-width="2"/>
+                <path d="M9 14 C9 11,11 9,14 9 C17 9,19 11,19 14 C19 17,17 19,14 19" stroke="url(#foot-grad)" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="14" cy="14" r="3" fill="url(#foot-grad)"/>
+                <line x1="14" y1="19" x2="14" y2="22" stroke="url(#foot-grad)" stroke-width="2" stroke-linecap="round"/>
+                <line x1="10" y1="22" x2="18" y2="22" stroke="url(#foot-grad)" stroke-width="2" stroke-linecap="round"/>
+                <defs>
+                  <linearGradient id="foot-grad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#a855f7"/>
+                    <stop offset="100%" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <span class="logo-text">Vox<span class="logo-accent">Arena</span></span>
+          </a>
+          <p>Your AI-powered voice debate partner for real-time thinking and communication practice.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#demo">Live Demo</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Technology</h4>
+            <ul>
+              <li><a href="https://murf.ai" target="_blank" rel="noopener">Murf AI Voice</a></li>
+              <li><a href="#">Speech Recognition</a></li>
+              <li><a href="#">NLP Engine</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 VoxArena. All rights reserved.</p>
+        <div class="murf-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 2L2 5V11L8 14L14 11V5L8 2Z" stroke="#a855f7" stroke-width="1.5"/>
+            <path d="M8 2V14M2 5L14 11M14 5L2 11" stroke="#a855f7" stroke-width="1" opacity="0.5"/>
+          </svg>
+          <span>Voice technology by <a href="https://murf.ai" target="_blank" rel="noopener">Murf AI</a></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
