@@ -2,6 +2,10 @@
    VoxArena — Main Script
    ══════════════════════════════════════════ */
 
+// ── 0. Backend URL ────────────────────────────────────────────────────
+const BACKEND_URL = 'http://localhost:3001';
+let   currentAudio = null; // track the playing Murf audio
+
 // ── 1. Navbar scroll effect ──────────────────────────────────────────
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -192,16 +196,70 @@ function setMicState(state) {
   }
 }
 
+// ── Murf AI voice playback ──────────────────────────────────────────
+async function playMurfAudio(text) {
+  try {
+    micHint.textContent = 'Generating Murf AI voice...';
+    const response = await fetch(`${BACKEND_URL}/speak`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ text, voiceId: 'en-US-natalie' }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || `Server error ${response.status}`);
+    }
+
+    const { audioUrl } = await response.json();
+    if (!audioUrl) throw new Error('No audio URL returned from backend.');
+
+    micHint.textContent = 'Playing Murf AI voice ✓';
+
+    // Stop any previous audio
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+
+    currentAudio = new Audio(audioUrl);
+    currentAudio.play();
+    currentAudio.onended  = () => { setMicState('idle'); isProcessing = false; micHint.textContent = 'Powered by Murf AI voice technology'; };
+    currentAudio.onerror  = () => { fallbackTTS(text); };
+
+  } catch (err) {
+    console.warn('[VoxArena] Murf backend error, falling back to browser TTS:', err.message);
+    micHint.textContent = `Murf unavailable – using browser voice (${err.message})`;
+    fallbackTTS(text);
+  }
+}
+
+// Browser TTS fallback
+function fallbackTTS(text) {
+  if ('speechSynthesis' in window) {
+    const utterance  = new SpeechSynthesisUtterance(text);
+    utterance.rate   = 0.95;
+    utterance.pitch  = 1.05;
+    utterance.volume = 0.9;
+    const voices     = speechSynthesis.getVoices();
+    const pref       = voices.find(v => v.name.includes('Google') || v.name.includes('Natural') || v.lang === 'en-US');
+    if (pref) utterance.voice = pref;
+    utterance.onend  = () => { setMicState('idle'); isProcessing = false; };
+    utterance.onerror = () => { setMicState('idle'); isProcessing = false; };
+    speechSynthesis.speak(utterance);
+  } else {
+    setTimeout(() => { setMicState('idle'); isProcessing = false; }, 2500);
+  }
+}
+
 function simulateAIResponse(userText) {
   setMicState('thinking');
   document.querySelector('.ai-panel').classList.remove('active');
   aiTranscript.innerHTML = '<p class="transcript-placeholder">AI is thinking...</p>';
 
   setTimeout(() => {
-    const topic         = topicSel.value;
-    const responseText  = getAIResponse(topic);
+    const topic        = topicSel.value;
+    const responseText = getAIResponse(topic);
     setMicState('ai-speaking');
 
+    // Type the response text into the panel
     aiTranscript.innerHTML = '';
     const p = document.createElement('p');
     p.className = 'transcript-text ai-text';
@@ -214,23 +272,8 @@ function simulateAIResponse(userText) {
         p.textContent += responseText[i++];
         setTimeout(type, 14);
       } else {
-        // Simulate speech synthesis
-        if ('speechSynthesis' in window) {
-          const utterance = new SpeechSynthesisUtterance(responseText);
-          utterance.rate   = 0.95;
-          utterance.pitch  = 1.05;
-          utterance.volume = 0.9;
-          // Pick a good voice if available
-          const voices = speechSynthesis.getVoices();
-          const pref   = voices.find(v => v.name.includes('Google') || v.name.includes('Natural') || v.lang === 'en-US');
-          if (pref) utterance.voice = pref;
-
-          utterance.onend = () => { setMicState('idle'); isProcessing = false; };
-          utterance.onerror = () => { setMicState('idle'); isProcessing = false; };
-          speechSynthesis.speak(utterance);
-        } else {
-          setTimeout(() => { setMicState('idle'); isProcessing = false; }, 2000);
-        }
+        // ── Call Murf AI backend for voice ──
+        playMurfAudio(responseText);
       }
     }
     type();
@@ -320,21 +363,32 @@ function startRecording() {
 
 micBtn.addEventListener('click', () => {
   if (isProcessing) {
-    // Stop recording if in progress
+    // Stop whatever is running
     if (isRecording && recognition) {
       recognition.stop();
-    } else if (window.speechSynthesis && window.speechSynthesis.speaking) {
-      window.speechSynthesis.cancel();
-      setMicState('idle');
-      isProcessing = false;
     }
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+    if (window.speechSynthesis && window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+    }
+    setMicState('idle');
+    isProcessing = false;
     return;
   }
   startRecording();
 });
 
-// Ensure voice list is loaded
+// Preload browser voice list (used as fallback)
 if ('speechSynthesis' in window) speechSynthesis.getVoices();
+
+// Ping backend on load to check availability
+fetch(`${BACKEND_URL}/health`)
+  .then(r => r.json())
+  .then(() => { micHint.textContent = 'Murf AI backend connected ✓'; })
+  .catch(() => { micHint.textContent = 'Backend offline – browser TTS fallback active'; });
 
 // ── 9. Smooth anchor scrolling for nav CTA ───────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
